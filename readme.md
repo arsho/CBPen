@@ -32,4 +32,5 @@ docker system prune -a
 ### Reference
 - [Docker compose tutorial](https://docs.docker.com/compose/gettingstarted/)
 - [How To Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
+- [Writing a Basic Port Scanner in Python](https://westoahu.hawaii.edu/cyber/forensics-weekly-executive-summmaries/writing-a-basic-port-scanner-in-python/)
 - [Icons class in template](https://demo-basic.adminkit.io/icons-feather.html)

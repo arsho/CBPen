@@ -8,11 +8,18 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Current Time</h5>
+                    <h3 class="mb-0">Port Scanner in {{ site }}</h3>
                 </div>
                 <div class="card-body">
-                    {% if data %}
-                        {{ data }}
+                    {% if open_ports %}
+                        The following ports are open:
+                        <ol>
+                            {% for port in open_ports %}
+                                <li> {{ port }}</li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                        <h3>No open ports is found</h3>
                     {% endif %}
                 </div>
             </div>
