@@ -3,11 +3,44 @@ Cloud Blazers Penetration Testing Tool
 
 ![App demo](screenshots/index.png)
 
-## Requirements
+## Local Setup
+### Requirements
+- Python 3
+- Pip
+- Internet connection
+
+### Install dependencies
+- Clone the repository.
+- Open a terminal in the cloned repository.
+- Create a virtual environment and activate it.
+If you are using Linux / Mac:
+```commandline
+python3 -m venv venv
+source venv/bin/activate
+```
+If you are using Windows (Untested):
+```commandline
+py -3 -m venv venv
+venv\Scripts\activate.bat
+```
+- Install required packages:
+```commandline
+pip install -r requirements.txt
+```
+
+### Run the project
+- To run the project call `flask run` command. It will invoke the environment variables which are set in [.flaskenv](./.flaskenv) file:
+```commandline
+flask run
+```
+
+
+## Cloud Setup
+### Requirements 
 - Docker
 - Docker compose
 
-## Run the project
+### Run the project
 - Run the project using the following command:
 ```commandline
 docker-compose build --no-cache
@@ -19,7 +52,7 @@ docker-compose up --force-recreate
 docker-compose down
 ```
 
-## Clean docker
+### Clean docker
 - Check the running images:
 ```commandline
 docker ps -a
@@ -34,3 +67,4 @@ docker system prune -a
 - [How To Remove Docker Images, Containers, and Volumes](https://www.digitalocean.com/community/tutorials/how-to-remove-docker-images-containers-and-volumes)
 - [Writing a Basic Port Scanner in Python](https://westoahu.hawaii.edu/cyber/forensics-weekly-executive-summmaries/writing-a-basic-port-scanner-in-python/)
 - [Icons class in template](https://demo-basic.adminkit.io/icons-feather.html)
+- [Virtual environments for Flask app](https://flask.palletsprojects.com/en/2.0.x/installation/#virtual-environments)
