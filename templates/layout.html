@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--Head Starts-->
+    {% include "partials/head.html" %}
+    <!--Head Ends-->
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+<div class="wrapper">
+    <!--Sidebar Starts-->
+    {% include "partials/sidebar.html" %}
+    <!--Sidebar Ends-->
+    <div class="main">
+        <!--Navbar Starts-->
+        {% include "partials/navbar.html" %}
+        <!--Navbar Ends-->
+        <main class="content">
+            <div class="container-fluid p-0">
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </main>
+        <!--Sidebar Starts-->
+        {% include "partials/footer.html" %}
+        <!--Sidebar Ends-->
+    </div>
+</div>
+<!--Scripts Starts-->
+{% include "partials/scripts.html" %}
+<!--Scripts Ends-->
+{% block scripts %}
+{% endblock %}
+
+</body>
+
+</html>
