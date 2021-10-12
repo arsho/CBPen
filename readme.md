@@ -7,29 +7,46 @@ Cloud Blazers Penetration Testing Tool
 ### Requirements
 - Python 3
 - Pip
-- nmap
+- nmap:
+Windows users, please download and install [latest stable release self-installer nmap-7.92-setup.exe](https://nmap.org/dist/nmap-7.92-setup.exe) 
 - Internet connection
 
 ### Install dependencies
 - Clone the repository.
-- Open a terminal in the cloned repository.
+- Open a terminal / powershell in the cloned repository.
 - Create a virtual environment and activate it.
 If you are using Linux / Mac:
 ```commandline
 python3 -m venv venv
 source venv/bin/activate
 ```
-If you are using Windows (Untested):
+Create and activate `venv` in Windows (Tested in Windows 10):
 ```commandline
-py -3 -m venv venv
-venv\Scripts\activate.bat
+python -m venv venv
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+.\venv\Scripts\Activate.ps1
 ```
+After activate the terminal / powershell will have `(venv)` added to the prompt.
+- Check `pip` version:
+```commandline
+pip --version
+```
+It should point to the `pip` in the activated `venv`.
 - Install required packages:
 ```commandline
 pip install -r requirements.txt
 ```
 
 ### Run the project
+- Activate the `venv` if not activated:
+Linux / Mac:
+```commandline
+source venv/bin/activate
+```
+Windows:
+```commandline
+.\venv\Scripts\Activate.ps1
+```
 - To run the project call `flask run` command. It will invoke the environment variables which are set in [.flaskenv](./.flaskenv) file:
 ```commandline
 flask run
@@ -70,3 +87,4 @@ docker system prune -a
 - [Icons class in template](https://demo-basic.adminkit.io/icons-feather.html)
 - [Virtual environments for Flask app](https://flask.palletsprojects.com/en/2.0.x/installation/#virtual-environments)
 - [Python3 nmap package](https://pypi.org/project/python3-nmap/)
+- [Latest stable release self-installer nmap-7.92-setup.exe](https://nmap.org/dist/nmap-7.92-setup.exe)

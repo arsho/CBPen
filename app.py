@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    sites = ["localhost", "scanme.nmap.org"]
+    sites = ["localhost", "scanme.nmap.org", "example.com"]
     if request.method == "POST":
         site = request.form["site"]
         # open_ports, total_time = get_open_ports(site, common=True)
