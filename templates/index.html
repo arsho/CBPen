@@ -2,27 +2,76 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-    <h1 class="h3 mb-3">Home</h1>
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Dashboard</h1>
 
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Port Scanner in {{ site }}</h3>
+                    <h3 class="mb-0">Scan for Open Ports in Site</h3>
                 </div>
                 <div class="card-body">
-                    {% if open_ports %}
-                        The following ports are open:
-                        <ol>
-                            {% for port in open_ports %}
-                                <li> {{ port }}</li>
+                    <form method="post" action="{{ url_for('index') }}">
+                        <select name="site" class="form-select form-select-lg mb-3">
+                            {% for site in sites %}
+                                <option value="{{ site }}">{{ site }}</option>
                             {% endfor %}
-                        </ol>
-                    {% else %}
-                        <h3>No open ports is found</h3>
-                    {% endif %}
+                        </select>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary btn-lg btn-block">
+                                Scan
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
+            <!-- .card -->
+            {% if site %}
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Scanning report for <b>{{ site }}</b>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        {% if hosts %}
+                            {% for host in hosts %}
+                                <table class="table table-sm table-bordered table-striped caption-top">
+                                    <caption class="card-subtitle">IP: {{ host.host }}</caption>
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>Protocol</th>
+                                        <th>Port</th>
+                                        <th>State</th>
+                                        <th>TTL</th>
+                                        <th>Service</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for port in host.ports %}
+                                        <tr>
+                                            <td>{{ port.protocol }}</td>
+                                            <td>{{ port.portid }}</td>
+                                            <td>{{ port.state }}</td>
+                                            <td>{{ port.reason_ttl }}</td>
+                                            <td>{{ port.service.name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        {% else %}
+                            <h3>No open ports is found</h3>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        {% if total_time %}
+                            <small>
+                                Scan took {{ total_time }} seconds
+                            </small>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 

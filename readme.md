@@ -7,6 +7,7 @@ Cloud Blazers Penetration Testing Tool
 ### Requirements
 - Python 3
 - Pip
+- nmap
 - Internet connection
 
 ### Install dependencies
@@ -68,3 +69,4 @@ docker system prune -a
 - [Writing a Basic Port Scanner in Python](https://westoahu.hawaii.edu/cyber/forensics-weekly-executive-summmaries/writing-a-basic-port-scanner-in-python/)
 - [Icons class in template](https://demo-basic.adminkit.io/icons-feather.html)
 - [Virtual environments for Flask app](https://flask.palletsprojects.com/en/2.0.x/installation/#virtual-environments)
+- [Python3 nmap package](https://pypi.org/project/python3-nmap/)
