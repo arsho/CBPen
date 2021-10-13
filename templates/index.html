@@ -6,19 +6,19 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">
-                    <h4 class="mb-0">Scan for Open Ports in Site</h4>
+                    Scan for Open Ports in Site
                 </div>
                 <div class="card-body">
                     <form method="post" action="{{ url_for('index') }}">
-                        <select name="site" class="form-select form-select-lg mb-3">
+                        <select name="site" class="form-select mb-3">
                             {% for site in sites %}
                                 <option value="{{ site }}">{{ site }}</option>
                             {% endfor %}
                         </select>
                         <div class="d-grid gap-2">
-                            <button class="btn btn-secondary btn-lg btn-block">
+                            <button class="btn btn-secondary btn-block">
                                 Scan
                             </button>
                         </div>
@@ -29,9 +29,7 @@
             {% if site %}
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="mb-0">
-                            Scanning report for <b>{{ site }}</b>
-                        </h4>
+                        Scanning report for <b>{{ site }}</b>
                     </div>
                     <div class="card-body">
                         {% if hosts %}
@@ -68,7 +66,7 @@
                     </div>
                     <div class="card-footer">
                         {% if total_time %}
-                            <small>
+                            <small class="text-muted">
                                 Scan took {{ total_time }} seconds
                             </small>
                         {% endif %}
