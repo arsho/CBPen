@@ -1,6 +1,7 @@
 from socket import gethostbyname, socket, AF_INET, SOCK_STREAM
 import time
 import nmap3
+import nmap
 
 
 def get_open_ports(target, common=False, start_port=80, end_port=81):
@@ -28,7 +29,43 @@ def get_open_ports(target, common=False, start_port=80, end_port=81):
 def get_open_ports_nmap(target):
     start_time = time.time()
     nmap = nmap3.NmapHostDiscovery()
-    results = nmap.nmap_portscan_only(target)
+    results = nmap.nmap_arp_discovery(target)
+    port_info = []
+    for key in results.keys():
+        host = {}
+        if results[key].get("ports", None):
+            host["host"] = key
+            host["ports"] = results[key].get("ports", None)
+            port_info.append(host)
+    total_time = "{:0.2f}".format(time.time() - start_time)
+    return port_info, total_time
+
+# def ports(target):
+
+# # initialize the port scanner
+#     nmap = nmap3.PortScanner(target)
+
+#     # scan localhost for ports in range 21-443
+#     nmap.scan('127.0.0.1', '21-443')
+
+#     # run a loop to print all the found result about the ports
+#     for host in nmap.all_hosts():
+#         print('Host : %s (%s)' % (host, nmap[host].hostname()))
+#         print('State : %s' % nmap[host].state())
+#         for proto in nmap[host].all_protocols():
+#             print('----------')
+#             print('Protocol : %s' % proto)
+
+#             lport = nmap[host][proto].keys()
+#             lport.sort()
+#             for port in lport:
+#                 print ('port : %s\tstate : %s' % (port, nmap[host][proto][port]['state']))
+#                 results = nmap3.ports(target)
+
+def get_Info(target):
+    start_time = time.time()
+    nmap = nmap3.NmapScanTechniques()
+    results = nmap.nmap_ping_scan(target)
     port_info = []
     for key in results.keys():
         host = {}
