@@ -62,10 +62,24 @@ def get_open_ports_nmap(target):
 #                 print ('port : %s\tstate : %s' % (port, nmap[host][proto][port]['state']))
 #                 results = nmap3.ports(target)
 
-def get_Info(target):
+def get_Os_Info(target):
     start_time = time.time()
-    nmap = nmap3.NmapScanTechniques()
-    results = nmap.nmap_ping_scan(target)
+    nmap = nmap3.NmapHostDiscovery()
+    results = nmap.nmap_os_detection(target)
+    port_info = []
+    for key in results.keys():
+        host = {}
+        if results[key].get("ports", None):
+            host["host"] = key
+            host["ports"] = results[key].get("ports", None)
+            port_info.append(host)
+    total_time = "{:0.2f}".format(time.time() - start_time)
+    return port_info, total_time
+
+def get_top_ports(target):
+    start_time = time.time()
+    nmap = nmap3.NmapHostDiscovery()
+    results = nmap.scan_top_ports(target)
     port_info = []
     for key in results.keys():
         host = {}
