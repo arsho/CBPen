@@ -66,15 +66,7 @@ def get_Os_Info(target):
     start_time = time.time()
     nmap = nmap3.NmapHostDiscovery()
     results = nmap.nmap_os_detection(target)
-    port_info = []
-    for key in results.keys():
-        host = {}
-        if results[key].get("ports", None):
-            host["host"] = key
-            host["ports"] = results[key].get("ports", None)
-            port_info.append(host)
-    total_time = "{:0.2f}".format(time.time() - start_time)
-    return port_info, total_time
+    print(results)
 
 def get_top_ports(target):
     start_time = time.time()

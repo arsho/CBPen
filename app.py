@@ -13,6 +13,7 @@ def index():
         site = request.form["site"]
         # open_ports, total_time = get_open_ports(site, common=True)
         hosts, total_time = get_open_ports_nmap(site)
+        # get_Os_Info("127.0.0.1")
         print("Get data from nmap complete", file=sys.stderr)
         return render_template(
             'index.html',
