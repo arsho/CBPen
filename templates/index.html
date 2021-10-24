@@ -59,6 +59,8 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
+                                <p><b>Port OS: {{os}}</p>
+
                             {% endfor %}
                         {% else %}
                             <h3>No open ports is found</h3>
@@ -74,7 +76,6 @@
                 </div>
             {% endif %}
         </div>
-        
     </div>
 
 {% endblock %}

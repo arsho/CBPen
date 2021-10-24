@@ -2,7 +2,8 @@ from socket import gethostbyname, socket, AF_INET, SOCK_STREAM
 import time
 import nmap3
 import nmap
-
+import os
+import sys
 
 def get_open_ports(target, common=False, start_port=80, end_port=81):
     start_time = time.time()
@@ -63,10 +64,26 @@ def get_open_ports_nmap(target):
 #                 results = nmap3.ports(target)
 
 def get_Os_Info(target):
-    start_time = time.time()
-    nmap = nmap3.NmapHostDiscovery()
-    results = nmap.nmap_os_detection(target)
-    print(results)
+    # start_time = time.time()
+    nm = nmap.PortScanner()
+    # results = nmap.nmap_os_detection(target)
+    # print(results)
+
+    nm.scan(target, arguments="-O")
+    # print(nm['127.0.0.1'].__contains__('osmatch') )
+    
+    print('we made it')
+    print(nm[target]['osmatch'][0]['name'])
+    osinfo = (nm[target]['osmatch'][0]['name'])
+    # print(nm['127.0.0.1']['osmatch'])
+    # for osclass in nm['127.0.0.1']['name']:
+    #     print('OsClass.type : {0}'.format(osclass['type']))
+    #     print('OsClass.vendor : {0}'.format(osclass['vendor']))
+    #     print('OsClass.osfamily : {0}'.format(osclass['osfamily']))
+    #     print('OsClass.osgen : {0}'.format(osclass['osgen']))
+    #     print('OsClass.accuracy : {0}'.format(osclass['accuracy']))
+    #    print('')
+    return osinfo 
 
 def get_top_ports(target):
     start_time = time.time()
