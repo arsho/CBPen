@@ -36,7 +36,7 @@
                             {% for host in hosts %}
                                 <table class="table table-sm table-bordered table-striped caption-top">
                                     <caption class="card-subtitle text-center p-2 mb-2 bg-secondary text-white">
-                                        IP: {{ host.host }}
+                                        IP: {{ host.host }} , {{os}}
                                     </caption>
                                     <thead class="table-light">
                                     <tr>
@@ -59,7 +59,7 @@
                                     {% endfor %}
                                     </tbody>
                                 </table>
-                                <p><b>Port OS: {{os}}</p>
+                                
 
                             {% endfor %}
                         {% else %}
@@ -69,7 +69,7 @@
                     <div class="card-footer">
                         {% if total_time %}
                             <small class="text-muted">
-                                Scan took {{ total_time }} seconds
+                                Port Scan took {{ total_time }} seconds
                             </small>
                         {% endif %}
                     </div>
