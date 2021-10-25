@@ -2,16 +2,16 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-    <h1 class="h3 mb-3"><strong>CBPen</strong> Dashboard</h1>
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Detail Report</h1>
 
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    Select Site to Scan Top Ports
+                    Select Site to Scan in Detail
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ url_for('index') }}">
+                    <form method="post" action="{{ url_for('get_services') }}">
                         <select name="site" class="form-select mb-3">
                             {% for site in sites %}
                                 <option value="{{ site }}">{{ site }}</option>
@@ -43,8 +43,14 @@
                                         <th>Protocol</th>
                                         <th>Port</th>
                                         <th>State</th>
+                                        <th>Reason</th>
                                         <th>TTL</th>
                                         <th>Service</th>
+                                        <th>Product</th>
+                                        <th>Method</th>
+                                        <th>Confidence</th>
+                                        <th>Version</th>
+                                        <th>Comment</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -53,9 +59,22 @@
                                             <td>{{ port.protocol }}</td>
                                             <td>{{ port.portid }}</td>
                                             <td>{{ port.state }}</td>
+                                            <td>{{ port.reason }}</td>
                                             <td>{{ port.reason_ttl }}</td>
                                             <td>{{ port.service.name }}</td>
-
+                                            <td>{{ port.service.product }}</td>
+                                            <td>{{ port.service.method }}</td>
+                                            <td>
+                                                {% if port.service.conf %}
+                                                    {{ port.service.conf | int * 10 }}%
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ port.service.version }}</td>
+                                            <td>
+                                                {% if port.service.extrainfo %}
+                                                    {{ port.service.extrainfo }}
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Terms and Policies</h1>
+
+    <h3 class="pb-2 border-bottom">Terms</h3>
+
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <ul class="list-group list-group-flush">
+                {% for term in terms %}
+                    <li class="list-group-item">
+                        {{ term }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+    <h3 class="pb-2 border-bottom">Policies</h3>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group list-group-flush">
+                {% for policy in policies %}
+                    <li class="list-group-item">
+                        {{ policy }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block script %}
+{% endblock %}

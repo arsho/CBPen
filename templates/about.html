@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block head %}
+{% endblock %}
+{% block content %}
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Contributors</h1>
+
+    <h3 class="pb-2 border-bottom">Advisor</h3>
+
+    <div class="bg-dark text-secondary px-4 py-5 text-center mb-4">
+        <div class="py-5">
+            <h1 class="display-5 fw-bold text-white">
+                {{ contributors.advisors[0].name }}
+            </h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="fs-5 mb-4 text-white">
+                    {{ contributors.advisors[0].designation }} <br>
+                    {{ contributors.advisors[0].department }} <br>
+                    {{ contributors.advisors[0].work_place }} <br>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="pb-2 border-bottom">Cloud Blazers Members</h3>
+
+    <div class="row align-items-md-stretch">
+
+        {% for contributor in contributors.members %}
+
+            <div class="col-md-4 mb-4">
+                <div class="h-100 p-5 border text-black bg-light rounded-3">
+                    <h4>{{ contributor.name }}</h4>
+                    <p>
+                        Blazer ID: {{ contributor.blazer_id }}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}
+{% block script %}
+{% endblock %}
