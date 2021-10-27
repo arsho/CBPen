@@ -19,19 +19,19 @@ def get_contributors():
             },
             {
                 "name": "Andrew Balfour",
-                "blazer_id": ""
+                "blazer_id": "abalfour"
             },
             {
                 "name": "Jeremy Crown",
-                "blazer_id": ""
+                "blazer_id": "jrcrown"
             },
             {
                 "name": "Trina Lin",
-                "blazer_id": ""
+                "blazer_id": "trinal00"
             },
             {
                 "name": "William Austin",
-                "blazer_id": ""
+                "blazer_id": "jemar"
             }
         ]
     }
