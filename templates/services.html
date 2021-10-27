@@ -80,6 +80,36 @@
                                     </tbody>
                                 </table>
 
+                                <!-- OS table -->
+                                <table class="table table-sm table-bordered table-striped caption-top">
+                                    <caption class="card-subtitle text-center p-2 mb-2 bg-secondary text-white">
+                                        Operating Systems used in IP: {{ host.host }}
+                                    </caption>
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Vendor</th>
+                                        <th>Family</th>
+                                        <th>Generation</th>
+                                        <th>Type</th>
+                                        <th>Accuracy</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for os in host.os %}
+                                        <tr>
+                                            <td>{{ os.name }}</td>
+                                            <td>{{ os.osclass[0].vendor }}</td>
+                                            <td>{{ os.osclass[0].osfamily }}</td>
+                                            <td>{{ os.osclass[0].osgen }}</td>
+                                            <td>{{ os.osclass[0].type }}</td>
+                                            <td>
+                                                {{ os.accuracy | int }}%
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
 
                             {% endfor %}
                         {% else %}

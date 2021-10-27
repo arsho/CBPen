@@ -1,5 +1,4 @@
-from flask import Flask, render_template, flash, redirect, request, url_for, g, \
-    Markup, escape
+from flask import Flask, render_template, request
 import sys
 from controller import get_top_ports, get_service_version
 from utils import get_formatted_time
@@ -39,7 +38,7 @@ def get_services():
             sites=sites,
             site=site,
             hosts=hosts,
-            total_time=total_time
+            total_time=total_time,
         )
     return render_template('services.html', sites=sites)
 
@@ -52,6 +51,6 @@ def about():
 
 @app.route('/terms')
 def terms():
-    terms = get_terms()
+    our_terms = get_terms()
     policies = get_policies()
-    return render_template('terms.html', terms=terms, policies=policies)
+    return render_template('terms.html', terms=our_terms, policies=policies)
