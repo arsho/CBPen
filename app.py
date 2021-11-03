@@ -1,7 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import sys
-from controller import get_top_ports, get_service_version, get_subdomains, get_ssl_certificates
-from utils import get_formatted_time
+from controller import get_port_view, get_service_view, get_subdomain_view
 from configurations import get_allowed_sites, get_contributors, get_terms, get_policies
 
 app = Flask(__name__)
@@ -17,17 +16,19 @@ def get_ports():
     sites = get_allowed_sites()
     if request.method == "POST":
         site = request.form["site"]
-        hosts, port_scan_time = get_top_ports(site)
-        total_time = get_formatted_time(port_scan_time)
-        print("Get top ports from nmap complete for: " + site, file=sys.stderr)
+        data = get_port_view(site)
         return render_template(
             'port.html',
             sites=sites,
             site=site,
-            hosts=hosts,
-            total_time=total_time
+            hosts=data["hosts"],
+            total_time=data["total_time"]
         )
-    return render_template('port.html', sites=sites)
+    else:
+        site = request.args.get('site', default='', type=str)
+        if site != "":
+            return jsonify(get_port_view(site))
+        return render_template('port.html', sites=sites)
 
 
 @app.route('/services', methods=['GET', 'POST'])
@@ -35,17 +36,19 @@ def get_services():
     sites = get_allowed_sites()
     if request.method == "POST":
         site = request.form["site"]
-        hosts, port_scan_time = get_service_version(site)
-        total_time = get_formatted_time(port_scan_time)
-        print("Get service version from nmap complete for: " + site, file=sys.stderr)
+        data = get_service_view(site)
         return render_template(
             'services.html',
             sites=sites,
             site=site,
-            hosts=hosts,
-            total_time=total_time
+            hosts=data["hosts"],
+            total_time=data["total_time"]
         )
-    return render_template('services.html', sites=sites)
+    else:
+        site = request.args.get('site', default='', type=str)
+        if site != "":
+            return jsonify(get_service_view(site))
+        return render_template('services.html', sites=sites)
 
 
 @app.route('/subdomains', methods=['GET', 'POST'])
@@ -53,19 +56,20 @@ def get_subdomains_ssl():
     sites = get_allowed_sites()
     if request.method == "POST":
         site = request.form["site"]
-        subdomains, subdomains_list_time = get_subdomains(site)
-        ssl_certificates, ssl_certificates_list_time = get_ssl_certificates(site)
-        total_time = get_formatted_time(subdomains_list_time + ssl_certificates_list_time)
-        print("Get subdomains, ssl complete for: " + site, file=sys.stderr)
+        data = get_subdomain_view(site)
         return render_template(
             'subdomains.html',
             sites=sites,
             site=site,
-            total_time=total_time,
-            subdomains=subdomains,
-            ssl_certificates=ssl_certificates
+            total_time=data["total_time"],
+            subdomains=data["subdomains"],
+            ssl_certificates=data["ssl_certificates"]
         )
-    return render_template('subdomains.html', sites=sites)
+    else:
+        site = request.args.get('site', default='', type=str)
+        if site != "":
+            return jsonify(get_subdomain_view(site))
+        return render_template('subdomains.html', sites=sites)
 
 
 @app.route('/about')

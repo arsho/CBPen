@@ -4,7 +4,43 @@ import nmap
 import sublist3r
 from sslyze import ServerNetworkLocationViaDirectConnection, ServerConnectivityTester, Scanner, ServerScanRequest, \
     ScanCommand
-from utils import print_nmap_results
+from utils import print_nmap_results, get_formatted_time
+import sys
+
+
+def get_port_view(site):
+    hosts, port_scan_time = get_top_ports(site)
+    total_time = get_formatted_time(port_scan_time)
+    print("Get top ports from nmap complete for: " + site, file=sys.stderr)
+    data = {
+        "total_time": total_time,
+        "hosts": hosts
+    }
+    return data
+
+
+def get_service_view(site):
+    hosts, port_scan_time = get_service_version(site)
+    total_time = get_formatted_time(port_scan_time)
+    print("Get service version from nmap complete for: " + site, file=sys.stderr)
+    data = {
+        "total_time": total_time,
+        "hosts": hosts
+    }
+    return data
+
+
+def get_subdomain_view(site):
+    subdomains, subdomains_list_time = get_subdomains(site)
+    ssl_certificates, ssl_certificates_list_time = get_ssl_certificates(site)
+    total_time = get_formatted_time(subdomains_list_time + ssl_certificates_list_time)
+    print("Get subdomains, ssl complete for: " + site, file=sys.stderr)
+    data = {
+        "total_time": total_time,
+        "ssl_certificates": ssl_certificates,
+        "subdomains": subdomains
+    }
+    return data
 
 
 def get_os(target):
@@ -71,6 +107,7 @@ def get_ssl_certificates(target):
         server_info = ServerConnectivityTester().perform(server_location)
     except Exception as e:
         total_time = time.time() - start_time
+        print("Error: " + str(e), file=sys.stderr)
         return certificates, total_time
 
     scanner = Scanner()
