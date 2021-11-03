@@ -4,7 +4,7 @@ import nmap
 import sublist3r
 from sslyze import ServerNetworkLocationViaDirectConnection, ServerConnectivityTester, Scanner, ServerScanRequest, \
     ScanCommand
-from utils import print_nmap_results, get_formatted_time
+from utils import print_on_console, get_formatted_time
 import sys
 
 
@@ -47,7 +47,7 @@ def get_os(target):
     nm = nmap.PortScanner()
     nm.scan(target, arguments="-O")
     results = nm[target]['osmatch']
-    print_nmap_results("get_os", target, results)
+    print_on_console("get_os", target, results)
     return results
 
 
@@ -55,7 +55,7 @@ def get_top_ports(target):
     start_time = time.time()
     nmap3_object = nmap3.NmapHostDiscovery()
     results = nmap3_object.scan_top_ports(target)
-    print_nmap_results("scan_top_ports", target, results)
+    print_on_console("scan_top_ports", target, results)
 
     port_info = []
     for key in results.keys():
@@ -72,7 +72,7 @@ def get_service_version(target):
     start_time = time.time()
     nmpa3_object = nmap3.Nmap()
     results = nmpa3_object.nmap_version_detection(target)
-    print_nmap_results("nmap_version_detection", target, results)
+    print_on_console("nmap_version_detection", target, results)
 
     detail_info = []
     for key in results.keys():
@@ -92,7 +92,7 @@ def get_subdomains(target):
     subdomains = sublist3r.main(target, 40, 'subdomains.txt', ports=None, silent=True, verbose=True,
                                 enable_bruteforce=False, engines=None)
     subdomains = list(subdomains)
-    print_nmap_results("subdomains", target, subdomains)
+    print_on_console("subdomains", target, subdomains)
     total_time = time.time() - start_time
     return subdomains, total_time
 
@@ -120,6 +120,6 @@ def get_ssl_certificates(target):
         certinfo_result = server_scan_result.scan_commands_results[ScanCommand.CERTIFICATE_INFO]
         for cert_deployment in certinfo_result.certificate_deployments:
             certificates.append(cert_deployment.received_certificate_chain_as_pem[0])
-    print_nmap_results("ssl_certificates", target, certificates)
+    print_on_console("ssl_certificates", target, certificates)
     total_time = time.time() - start_time
     return certificates, total_time

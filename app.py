@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify
-import sys
 from controller import get_port_view, get_service_view, get_subdomain_view
 from configurations import get_allowed_sites, get_contributors, get_terms, get_policies
 

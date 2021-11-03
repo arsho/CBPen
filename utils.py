@@ -4,7 +4,7 @@ import time
 import sys
 
 
-def print_nmap_results(method_name, target, results, json_output=True):
+def print_on_console(method_name, target, results, json_output=True):
     print("*" * 12, file=sys.stderr)
     print("{} for {}".format(method_name, target), file=sys.stderr)
     print(json.dumps(results, indent=4), file=sys.stderr)
