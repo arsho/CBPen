@@ -15,6 +15,7 @@ def get_formatted_time(value):
     return "{:0.2f}".format(value)
 
 
+
 def get_open_ports(target, common=False, start_port=80, end_port=100):
     start_time = time.time()
     host_ip = gethostbyname(target)

@@ -2,6 +2,8 @@ import time
 import nmap3
 import nmap
 import sublist3r
+from sslyze import ServerNetworkLocationViaDirectConnection, ServerConnectivityTester, Scanner, ServerScanRequest, \
+    ScanCommand
 from utils import print_nmap_results
 
 
@@ -56,3 +58,30 @@ def get_subdomains(target):
     print_nmap_results("subdomains", target, subdomains)
     total_time = time.time() - start_time
     return subdomains, total_time
+
+
+def get_ssl_certificates(target):
+    start_time = time.time()
+    certificates = []
+    server_location = ServerNetworkLocationViaDirectConnection.with_ip_address_lookup(target, 443)
+
+    # Do connectivity testing to ensure SSLyze is able to connect
+    try:
+        server_info = ServerConnectivityTester().perform(server_location)
+    except Exception as e:
+        # Could not connect to the server; abort
+        return
+
+    scanner = Scanner()
+    server_scan_req = ServerScanRequest(
+        server_info=server_info, scan_commands={ScanCommand.CERTIFICATE_INFO, ScanCommand.SSL_2_0_CIPHER_SUITES},
+    )
+    scanner.start_scans([server_scan_req])
+
+    for server_scan_result in scanner.get_results():
+        certinfo_result = server_scan_result.scan_commands_results[ScanCommand.CERTIFICATE_INFO]
+        for cert_deployment in certinfo_result.certificate_deployments:
+            certificates.append(cert_deployment.received_certificate_chain_as_pem[0])
+    print_nmap_results("ssl_certificates", target, certificates)
+    total_time = time.time() - start_time
+    return certificates, total_time

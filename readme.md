@@ -2,7 +2,7 @@
 
 Cloud Blazers Penetration Testing Tool
 
-![App demo](screenshots/example.org.png)
+![App demo](screenshots/example.net.png)
 
 ## Local Setup
 
@@ -135,6 +135,14 @@ rm uninstall.txt
 pip install -r requirements.txt
 ```
 
+### Features
+
+- Scan top ports
+- Scan services
+- Scan operating systems
+- List subdomains
+- Scan SSL certificates
+
 ### Reference
 
 - [Docker compose tutorial](https://docs.docker.com/compose/gettingstarted/)
@@ -146,3 +154,4 @@ pip install -r requirements.txt
 - [Python nmap package](https://pypi.org/project/python-nmap/)
 - [Latest stable release self-installer nmap-7.92-setup.exe](https://nmap.org/dist/nmap-7.92-setup.exe)
 - [Sublist3r package](https://github.com/aboul3la/Sublist3r)
+- [sslyze documentation](https://nabla-c0d3.github.io/sslyze/documentation/available-scan-commands.html#id15)
