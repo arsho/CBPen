@@ -1,5 +1,7 @@
 def get_allowed_sites():
-    return ["localhost", "scanme.nmap.org", "example.com"]
+    return ["localhost", "scanme.nmap.org", "example.com",
+            "example.net", "example.org",
+            "uab.edu", "arshovon.com", "webscantest.com"]
 
 
 def get_contributors():

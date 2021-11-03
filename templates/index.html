@@ -35,8 +35,8 @@
                         {% if hosts %}
                             {% for host in hosts %}
                                 <table class="table table-sm table-bordered table-striped caption-top">
-                                    <caption class="card-subtitle text-center p-2 mb-2 bg-secondary text-white">
-                                        IP: {{ host.host }}
+                                    <caption class="card-subtitle text-center p-2 mb-2 bg-dark bg-gradient text-white">
+                                        Top ports at IP: <b>{{ host.host }}</b>
                                     </caption>
                                     <thead class="table-light">
                                     <tr>

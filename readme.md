@@ -2,7 +2,7 @@
 
 Cloud Blazers Penetration Testing Tool
 
-![App demo](screenshots/index.png)
+![App demo](screenshots/example.org.png)
 
 ## Local Setup
 
@@ -145,3 +145,4 @@ pip install -r requirements.txt
 - [Python3 nmap package](https://pypi.org/project/python3-nmap/)
 - [Python nmap package](https://pypi.org/project/python-nmap/)
 - [Latest stable release self-installer nmap-7.92-setup.exe](https://nmap.org/dist/nmap-7.92-setup.exe)
+- [Sublist3r package](https://github.com/aboul3la/Sublist3r)

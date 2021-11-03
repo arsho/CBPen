@@ -1,6 +1,7 @@
 import time
 import nmap3
 import nmap
+import sublist3r
 from utils import print_nmap_results
 
 
@@ -46,3 +47,12 @@ def get_service_version(target):
 
     total_time = time.time() - start_time
     return detail_info, total_time
+
+
+def get_subdomains(target):
+    start_time = time.time()
+    subdomains = sublist3r.main(target, 40, 'subdomains.txt', ports=None, silent=True, verbose=True,
+                                enable_bruteforce=False, engines=None)
+    print_nmap_results("subdomains", target, subdomains)
+    total_time = time.time() - start_time
+    return subdomains, total_time
