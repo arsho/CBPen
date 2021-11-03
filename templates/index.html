@@ -2,83 +2,71 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-    <h1 class="h3 mb-3"><strong>CBPen</strong> Dashboard</h1>
+    <div class="p-5 mb-4 bg-light rounded-3 text-center">
+        <div class="container-fluid py-5">
+            <h3 class="display-6 fw-bold">Cloud based Penetration Testing Tool</h3>
+            <div class="row justify-content-md-center mt-4">
+                <p class="col-md-8 fs-4">
+                    <b>CBPen</b> is a cloud based penetration testing tool. It utilizes the art of classic testing
+                    techniques
+                    with modern approach of cloud computing. It embraced by open source technologies.
+                </p>
+                <div class="d-grid gap-2 d-md-block mt-4">
+                    <a class="btn btn-secondary btn-lg py-2 text-white text-decoration-none"
+                       href="{{ url_for('get_ports') }}">
+                        <i class="bi-shield-check"></i> Port Scan
+                    </a>
+                    <a class="btn btn-dark btn-lg py-2 text-white text-decoration-none"
+                       href="{{ url_for('get_services') }}">
+                        <i class="bi-journal-check"></i> Services
+                    </a>
+                    <a class="btn btn-success btn-lg py-2 text-white text-decoration-none"
+                       href="{{ url_for('get_subdomains_ssl') }}">
+                        <i class="bi-card-checklist"></i> Subdomains
+                    </a>
+                </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header">
-                    Select Site to Scan Top Ports
-                </div>
-                <div class="card-body">
-                    <form method="post" action="{{ url_for('index') }}">
-                        <select name="site" class="form-select mb-3">
-                            {% for site in sites %}
-                                <option value="{{ site }}">{{ site }}</option>
-                            {% endfor %}
-                        </select>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-secondary btn-block">
-                                Scan
-                            </button>
-                        </div>
-                    </form>
-                </div>
             </div>
-            <!-- .card -->
-            {% if site %}
-                <div class="card">
-                    <div class="card-header">
-                        Scanning report for <b>{{ site }}</b>
-                    </div>
-                    <div class="card-body">
-                        {% if hosts %}
-                            {% for host in hosts %}
-                                <table class="table table-sm table-bordered table-striped caption-top">
-                                    <caption class="card-subtitle text-center p-2 mb-2 bg-dark bg-gradient text-white">
-                                        Top ports at IP: <b>{{ host.host }}</b>
-                                    </caption>
-                                    <thead class="table-light">
-                                    <tr>
-                                        <th>Protocol</th>
-                                        <th>Port</th>
-                                        <th>State</th>
-                                        <th>TTL</th>
-                                        <th>Service</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for port in host.ports %}
-                                        <tr>
-                                            <td>{{ port.protocol }}</td>
-                                            <td>{{ port.portid }}</td>
-                                            <td>{{ port.state }}</td>
-                                            <td>{{ port.reason_ttl }}</td>
-                                            <td>{{ port.service.name }}</td>
-
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-
-
-                            {% endfor %}
-                        {% else %}
-                            <h3>No open ports is found</h3>
-                        {% endif %}
-                    </div>
-                    <div class="card-footer">
-                        {% if total_time %}
-                            <small class="text-muted">
-                                Scan took {{ total_time }} seconds
-                            </small>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endif %}
         </div>
     </div>
 
+    <div class="row align-items-md-stretch">
+        <div class="col-md-4">
+            <div class="h-100 p-5 text-white border bg-dark rounded-3">
+                <h4>Scan for top ports</h4>
+                <p>
+                    Scan for open, closed, and available ports of a host. Get a complete report with
+                    details. It is quick and robust!
+                </p>
+                <a class="btn btn-outline-light py-2 text-decoration-none" href="{{ url_for('get_ports') }}">
+                    <i class="bi-shield-check"></i> Port Scan
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="h-100 p-5 bg-light border rounded-3">
+                <h4>Services with versions</h4>
+                <p>
+                    Want to get the services running on each IP of a host? What about their versions including operating systems?
+                    Give it a try!
+                </p>
+                <a class="btn btn-outline-secondary py-2 text-decoration-none" href="{{ url_for('get_services') }}">
+                    <i class="bi-journal-check"></i> Services
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="h-100 p-5 text-dark border bg-secondary rounded-3">
+                <h4>Find subdomains, SSL</h4>
+                <p>
+                    Find the subdomains of the hosts, even which invisible to search engines. Additionally list the SSL certificates.
+                </p>
+                <a class="btn btn-outline-dark text-dark py-2 text-decoration-none" href="{{ url_for('get_subdomains_ssl') }}">
+                    <i class="bi-card-checklist"></i> Subdomains
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 {% block script %}
 {% endblock %}

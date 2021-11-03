@@ -69,8 +69,8 @@ def get_ssl_certificates(target):
     try:
         server_info = ServerConnectivityTester().perform(server_location)
     except Exception as e:
-        # Could not connect to the server; abort
-        return
+        total_time = time.time() - start_time
+        return certificates, total_time
 
     scanner = Scanner()
     server_scan_req = ServerScanRequest(

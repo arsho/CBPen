@@ -1,9 +1,13 @@
-<footer class="py-1 px-0 mt-auto text-center bg-dark text-white border border-top border-2 border-dark">
-    <p>
-        <small>
-            Developed by
-            <a href="{{ url_for('about') }}" class="text-white">Cloud Blazers</a>
-            &copy; 2021
-        </small>
-    </p>
+<footer class="py-3 bg-dark mt-auto text-white border border-top border-2 border-dark">
+    <div class="container">
+        <p class="float-end mb-1">
+            <a id="back-to-top" href="#"
+               class="btn btn-light btn-lg back-to-top" role="button">
+                <i class="bi bi-arrow-up-square-fill"></i>
+            </a>
+        </p>
+        <p class="mb-1">Developed by <a href="{{ url_for('about') }}" class="text-white">Cloud Blazers</a>
+            <br>CBPen &copy; 2021
+        </p>
+    </div>
 </footer>

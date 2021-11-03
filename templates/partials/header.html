@@ -12,11 +12,14 @@
     </a>
 
     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-        <a class="me-3 py-2 text-dark text-decoration-none" href="{{ url_for('index') }}">
+        <a class="me-3 py-2 text-dark text-decoration-none" href="{{ url_for('get_ports') }}">
            <i class="bi-shield-check"></i> Port Scan
         </a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="{{ url_for('get_services') }}">
            <i class="bi-journal-check"></i> Services
+        </a>
+        <a class="me-3 py-2 text-dark text-decoration-none" href="{{ url_for('get_subdomains_ssl') }}">
+           <i class="bi-card-checklist"></i> Subdomains
         </a>
         <a class="me-3 py-2 text-dark text-decoration-none" href="https://github.com/arsho/CBPen">
             <i class="bi-github"></i> Code

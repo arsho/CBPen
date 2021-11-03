@@ -2,13 +2,13 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-    <h1 class="h3 mb-3"><strong>CBPen</strong> Detail Report</h1>
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Service Scan</h1>
 
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    Select Site to Scan in Detail
+                    Select Site to Scan for Services
                 </div>
                 <div class="card-body">
                     <form method="post" action="{{ url_for('get_services') }}">
@@ -115,64 +115,6 @@
                             {% endfor %}
                         {% else %}
                             <h3>No open ports is found</h3>
-                        {% endif %}
-                        {% if subdomains %}
-                            <table class="table table-sm table-bordered table-striped caption-top table-responsive mt-4">
-                                <caption class="card-subtitle text-center p-2 mb-2 bg-info bg-gradient text-white">
-
-                                    {% if subdomains|length == 1 %}
-                                        Total <b>{{ subdomains|length }}</b> subdomain found in <b>{{ site }}</b>
-                                    {% else %}
-                                        Total <b>{{ subdomains|length }}</b> subdomains found in <b>{{ site }}</b>
-                                    {% endif %}
-                                </caption>
-                                <thead></thead>
-                                <tbody>
-
-                                {%- for row in subdomains|batch(3, ' ') %}
-                                    <tr>
-                                        {%- for column in row %}
-                                            <td>
-                                                <small>
-                                                    <a class="link-dark text-sm"
-                                                       target="_blank"
-                                                       href="{{ column }}">{{ column }}</a>
-                                                </small>
-                                            </td>
-                                        {%- endfor %}
-                                    </tr>
-                                {%- endfor %}
-                                </tbody>
-                            </table>
-                        {% endif %}
-                        {% if ssl_certificates %}
-                            <table class="table table-sm table-bordered table-striped caption-top table-responsive mt-4">
-                                <caption class="card-subtitle text-center p-2 mb-2 bg-secondary bg-gradient text-white">
-
-                                    {% if ssl_certificates|length == 1 %}
-                                        Total <b>{{ ssl_certificates|length }}</b> SSL certificate found in
-                                        <b>{{ site }}</b>
-                                    {% else %}
-                                        Total <b>{{ ssl_certificates|length }}</b> SSL certificates found in
-                                        <b>{{ site }}</b>
-                                    {% endif %}
-                                </caption>
-                                <thead></thead>
-                                <tbody>
-                                {% for ssl_certificate in ssl_certificates %}
-                                    <tr>
-                                        <td>
-                                            <pre>{{ ssl_certificate }}</pre>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <div class="alert alert-danger" role="alert">
-                                No SSL certificate is found in {{ site }}
-                            </div>
                         {% endif %}
                     </div>
                     <div class="card-footer">

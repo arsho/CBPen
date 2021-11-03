@@ -2,7 +2,7 @@
 
 Cloud Blazers Penetration Testing Tool
 
-![App demo](screenshots/example.net.png)
+![App demo](screenshots/example.org.png)
 
 ## Local Setup
 
