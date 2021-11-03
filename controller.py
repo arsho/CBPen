@@ -55,6 +55,7 @@ def get_subdomains(target):
     start_time = time.time()
     subdomains = sublist3r.main(target, 40, 'subdomains.txt', ports=None, silent=True, verbose=True,
                                 enable_bruteforce=False, engines=None)
+    subdomains = list(subdomains)
     print_nmap_results("subdomains", target, subdomains)
     total_time = time.time() - start_time
     return subdomains, total_time
