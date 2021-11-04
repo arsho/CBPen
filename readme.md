@@ -2,7 +2,7 @@
 
 Cloud Blazers Penetration Testing Tool
 
-![App demo](screenshots/example.org.png)
+![App demo](screenshots/multiple.png)
 
 ### Project checklist
 
@@ -29,11 +29,11 @@ result back to the monitor.
 - Scan SSL certificates
 - Parallel execution of scanning in multiple VMs that increase the screening speed multiple times
 
-### Execution time comparision
+### Execution time comparison
 
-Comparision between parallel and non parallel execution time. The time is measured in seconds.
+Comparison between parallel and nonparallel execution time. The time is measured in seconds.
 
-| Scan type | Number of sites | Parallel execution time | Non parallel execution time |
+| Scan type | Number of sites | Parallel execution time | Nonparallel execution time |
 | --- | --- | --- | --- |
 | Port | 6 | 3.29 | 11.93 |
 | Services and operating systems | 6 | 39.88 | 161.02 |
