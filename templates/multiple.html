@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block head %}
+{% endblock %}
+{% block content %}
+
+
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Dashboard</h1>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Enter comma separated IP addresses
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ url_for('get_multiple') }}">
+                        <div class="mb-3">
+                            <label for="ip_addresses" class="form-label">IP Addresses</label>
+                            <input name="ip_addresses" type="text" class="form-control" id="ip_addresses"
+                                   value="example.com,example.net,example.org,scanme.nmap.org,arshovon.com,uab.edu"
+                                   aria-describedby="ip_addresses_help">
+                            <div id="ip_addresses_help" class="form-text">
+                                Example: example.com,example.net,example.org,scanme.nmap.org,arshovon.com,uab.edu
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="virtual_machines" class="form-label">Virtual Machines</label>
+                            <input name="virtual_machines" type="text" class="form-control" id="virtual_machines"
+                                   value="http://127.0.0.1:5000,http://127.0.0.1:5000,http://127.0.0.1:5000"
+                                   aria-describedby="virtual_machines_help">
+                            <div id="virtual_machines_help" class="form-text">
+                                Example: http://127.0.0.1:5000,http://127.0.0.1:5000,http://127.0.0.1:5000
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="scan_type" class="form-label">Select scan type</label>
+                            <select name="scan_type" id="scan_type" class="form-select mb-3">
+                                {% for scan_type in scan_types %}
+                                    <option value="{{ scan_type[0] }}">{{ scan_type[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary btn-block">
+                                Scan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- .card -->
+            {% if ip_addresses %}
+                <div class="card">
+                    <div class="card-header">
+                        Scanning report for <b>{{ ip_addresses }}</b>
+                    </div>
+                    <div class="card-body">
+                    </div>
+                    <div class="card-footer">
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+{% endblock %}
