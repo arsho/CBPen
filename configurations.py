@@ -4,6 +4,14 @@ def get_allowed_sites():
             "uab.edu", "arshovon.com", "webscantest.com"]
 
 
+def get_scan_types():
+    return [
+        ["ports", "Port Scan"],
+        ["services", "Services and operating systems"],
+        ["subdomains", "Subdomains and SSL certificates"]
+    ]
+
+
 def get_contributors():
     return {
         "advisors": [

@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+{% block head %}
+{% endblock %}
+{% block content %}
+
+
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Dashboard</h1>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Enter comma separated IP addresses
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{{ url_for('get_multiple') }}">
+                        <div class="mb-3">
+                            <label for="ip_addresses" class="form-label">IP Addresses</label>
+                            <input name="ip_addresses" type="text" class="form-control" id="ip_addresses"
+                                   value="example.com,example.net,example.org,scanme.nmap.org,arshovon.com,uab.edu"
+                                   aria-describedby="ip_addresses_help">
+                            <div id="ip_addresses_help" class="form-text">
+                                Example: example.com,example.net,example.org,scanme.nmap.org,arshovon.com,uab.edu
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="virtual_machines" class="form-label">Virtual Machines</label>
+                            <input name="virtual_machines" type="text" class="form-control" id="virtual_machines"
+                                   value="http://127.0.0.1:5000,http://127.0.0.1:5000,http://127.0.0.1:5000"
+                                   aria-describedby="virtual_machines_help">
+                            <div id="virtual_machines_help" class="form-text">
+                                Example: http://127.0.0.1:5000,http://127.0.0.1:5000,http://127.0.0.1:5000
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="scan_type" class="form-label">Select scan type</label>
+                            <select name="scan_type" id="scan_type" class="form-select mb-3">
+                                {% for scan_type in scan_types %}
+                                    <option value="{{ scan_type[0] }}">{{ scan_type[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-secondary btn-block">
+                                Scan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- .card -->
+            {% if data %}
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Scan completed!</h4>
+                    <p class="well">Selected scanning option: {{ data.scan_type }}</p>
+                    <hr>
+                    <p class="well">
+                        Total time for scanning
+                        <b>
+                            {{ '0' if data.sites == None else data.sites|length }}
+                        </b>
+                        sites: {{ data.total_time }} seconds
+                    </p>
+                </div>
+                {% if data.scan_type=='ports' %}
+                    {% for site_data in data.sites %}
+                        {% from 'macros/ports_macro.html' import ports_macro %}
+                        {{ ports_macro(site_data.site, site_data.hosts, site_data.total_time) }}
+                    {% endfor %}
+                {% endif %}
+                {% if data.scan_type=='services' %}
+                    {% for site_data in data.sites %}
+                        {% from 'macros/services_macro.html' import services_macro %}
+                        {{ services_macro(site_data.site, site_data.hosts, site_data.total_time) }}
+                    {% endfor %}
+                {% endif %}
+                {% if data.scan_type=='subdomains' %}
+                    {% for site_data in data.sites %}
+                        {% from 'macros/subdomains_macro.html' import subdomains_macro %}
+                        {{ subdomains_macro(site_data.site, site_data.subdomains, site_data.ssl_certificates, site_data.total_time) }}
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+{% endblock %}

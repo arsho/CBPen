@@ -1,0 +1,101 @@
+{% macro services_macro(site, hosts, total_time) -%}
+    <div class="card mb-2">
+        <div class="card-header">
+            Scanning report for <b>{{ site }}</b>
+        </div>
+        <div class="card-body">
+            {% if hosts %}
+                {% for host in hosts %}
+                    <table class="table table-sm table-bordered table-striped caption-top">
+                        <caption class="card-subtitle text-center p-2 mb-2 bg-dark bg-gradient text-white">
+                            Service lists for IP: <b>{{ host.host }}</b>
+                        </caption>
+                        <thead class="table-light">
+                        <tr>
+                            <th>Protocol</th>
+                            <th>Port</th>
+                            <th>State</th>
+                            <th>Reason</th>
+                            <th>TTL</th>
+                            <th>Service</th>
+                            <th>Product</th>
+                            <th>Method</th>
+                            <th>Confidence</th>
+                            <th>Version</th>
+                            <th>Comment</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for port in host.ports %}
+                            <tr>
+                                <td>{{ port.protocol }}</td>
+                                <td>{{ port.portid }}</td>
+                                <td>{{ port.state }}</td>
+                                <td>{{ port.reason }}</td>
+                                <td>{{ port.reason_ttl }}</td>
+                                <td>{{ port.service.name }}</td>
+                                <td>{{ port.service.product }}</td>
+                                <td>{{ port.service.method }}</td>
+                                <td>
+                                    {% if port.service.conf %}
+                                        {{ port.service.conf | int * 10 }}%
+                                    {% endif %}
+                                </td>
+                                <td>{{ port.service.version }}</td>
+                                <td>
+                                    {% if port.service.extrainfo %}
+                                        {{ port.service.extrainfo }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <!-- OS table -->
+                    <table class="table table-sm table-bordered table-striped caption-top my-4">
+                        <caption
+                                class="card-subtitle text-center p-2 mb-2 bg-success bg-gradient text-white">
+                            Operating Systems used in IP: <b>{{ host.host }}</b>
+                        </caption>
+                        <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Vendor</th>
+                            <th>Family</th>
+                            <th>Generation</th>
+                            <th>Type</th>
+                            <th>Accuracy</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for os in host.os %}
+                            <tr>
+                                <td>{{ os.name }}</td>
+                                <td>{{ os.osclass[0].vendor }}</td>
+                                <td>{{ os.osclass[0].osfamily }}</td>
+                                <td>{{ os.osclass[0].osgen }}</td>
+                                <td>{{ os.osclass[0].type }}</td>
+                                <td>
+                                    {{ os.accuracy | int }}%
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                {% endfor %}
+            {% else %}
+                <h3>No open ports is found</h3>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            {% if total_time %}
+                <small class="text-muted">
+                    Scan took {{ total_time }} seconds
+                </small>
+            {% endif %}
+        </div>
+    </div>
+
+{%- endmacro %}

@@ -1,4 +1,8 @@
+from urllib.parse import urljoin
+import urllib.request
+import json
 import time
+from requests_futures.sessions import FuturesSession
 import nmap3
 import nmap
 import sublist3r
@@ -6,6 +10,44 @@ from sslyze import ServerNetworkLocationViaDirectConnection, ServerConnectivityT
     ScanCommand
 from utils import print_on_console, get_formatted_time
 import sys
+
+
+def get_multiple_view(ip_addresses, virtual_machines, scan_type, parallel=True):
+    start = time.time()
+    api_endpoints = []
+    vm_index = 0
+    for ip_address in ip_addresses:
+        base = urljoin(virtual_machines[vm_index], scan_type)
+        api_endpoints.append(urljoin(base, "?site=" + ip_address))
+        vm_index += 1
+        if vm_index == len(virtual_machines):
+            vm_index = 0
+    data = dict()
+    data["sites"] = []
+    if parallel:
+        with FuturesSession() as session:
+            parallel_data = {}
+            for endpoint in api_endpoints:
+                parallel_data[endpoint] = session.get(endpoint)
+            for endpoint in parallel_data:
+                site = endpoint.split("=")[1]
+                api_data = json.loads(parallel_data[endpoint].result().content)
+                api_data["site"] = site
+                api_data["api_path"] = endpoint
+                data["sites"].append(api_data)
+
+    else:
+        for endpoint in api_endpoints:
+            response = urllib.request.urlopen(endpoint)
+            api_data = json.loads(response.read())
+            site = endpoint.split("=")[1]
+            api_data["site"] = site
+            api_data["api_path"] = endpoint
+            data["sites"].append(api_data)
+    total_time = time.time() - start
+    data["total_time"] = get_formatted_time(total_time)
+    data["scan_type"] = scan_type
+    return data
 
 
 def get_port_view(site):
