@@ -49,16 +49,37 @@
                 </div>
             </div>
             <!-- .card -->
-            {% if ip_addresses %}
-                <div class="card">
-                    <div class="card-header">
-                        Scanning report for <b>{{ ip_addresses }}</b>
-                    </div>
-                    <div class="card-body">
-                    </div>
-                    <div class="card-footer">
-                    </div>
+            {% if data %}
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Scan completed!</h4>
+                    <p class="well">Selected scanning option: {{ data.scan_type }}</p>
+                    <hr>
+                    <p class="well">
+                        Total time for scanning
+                        <b>
+                            {{ '0' if data.sites == None else data.sites|length }}
+                        </b>
+                        sites: {{ data.total_time }} seconds
+                    </p>
                 </div>
+                {% if data.scan_type=='ports' %}
+                    {% for site_data in data.sites %}
+                        {% from 'macros/ports_macro.html' import ports_macro %}
+                        {{ ports_macro(site_data.site, site_data.hosts, site_data.total_time) }}
+                    {% endfor %}
+                {% endif %}
+                {% if data.scan_type=='services' %}
+                    {% for site_data in data.sites %}
+                        {% from 'macros/services_macro.html' import services_macro %}
+                        {{ services_macro(site_data.site, site_data.hosts, site_data.total_time) }}
+                    {% endfor %}
+                {% endif %}
+                {% if data.scan_type=='subdomains' %}
+                    {% for site_data in data.sites %}
+                        {% from 'macros/subdomains_macro.html' import subdomains_macro %}
+                        {{ subdomains_macro(site_data.site, site_data.subdomains, site_data.ssl_certificates, site_data.total_time) }}
+                    {% endfor %}
+                {% endif %}
             {% endif %}
 
         </div>

@@ -27,82 +27,8 @@
             </div>
             <!-- .card -->
             {% if site %}
-                <div class="card">
-                    <div class="card-header">
-                        Scanning report for <b>{{ site }}</b>
-                    </div>
-                    <div class="card-body">
-                        {% if subdomains %}
-                            <table class="table table-sm table-bordered table-striped caption-top table-responsive mt-4">
-                                <caption class="card-subtitle text-center p-2 mb-2 bg-dark bg-gradient text-white">
-
-                                    {% if subdomains|length == 1 %}
-                                        Total <b>{{ subdomains|length }}</b> subdomain found in <b>{{ site }}</b>
-                                    {% else %}
-                                        Total <b>{{ subdomains|length }}</b> subdomains found in <b>{{ site }}</b>
-                                    {% endif %}
-                                </caption>
-                                <thead></thead>
-                                <tbody>
-
-                                {%- for row in subdomains|batch(3, ' ') %}
-                                    <tr>
-                                        {%- for column in row %}
-                                            <td>
-                                                <small>
-                                                    <a class="link-dark text-sm"
-                                                       target="_blank"
-                                                       href="{{ column }}">{{ column }}</a>
-                                                </small>
-                                            </td>
-                                        {%- endfor %}
-                                    </tr>
-                                {%- endfor %}
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <div class="alert alert-info" role="alert">
-                                No subdomains is found in {{ site }}
-                            </div>
-                        {% endif %}
-                        {% if ssl_certificates %}
-                            <table class="table table-sm table-bordered table-striped caption-top table-responsive mt-4">
-                                <caption class="card-subtitle text-center p-2 mb-2 bg-info bg-gradient text-white">
-
-                                    {% if ssl_certificates|length == 1 %}
-                                        Total <b>{{ ssl_certificates|length }}</b> SSL certificate found in
-                                        <b>{{ site }}</b>
-                                    {% else %}
-                                        Total <b>{{ ssl_certificates|length }}</b> SSL certificates found in
-                                        <b>{{ site }}</b>
-                                    {% endif %}
-                                </caption>
-                                <thead></thead>
-                                <tbody>
-                                {% for ssl_certificate in ssl_certificates %}
-                                    <tr>
-                                        <td>
-                                            <pre>{{ ssl_certificate }}</pre>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-
-                                </tbody>
-                            </table>
-                        {% else %}
-                            <div class="alert alert-danger" role="alert">
-                                No SSL certificate is found in {{ site }}
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="card-footer">
-                        {% if total_time %}
-                            <small class="text-muted">
-                                Scan took {{ total_time }} seconds
-                            </small>
-                        {% endif %}
-                    </div>
-                </div>
+                {% from 'macros/subdomains_macro.html' import subdomains_macro %}
+                {{ subdomains_macro(site, subdomains, ssl_certificates, total_time) }}
             {% endif %}
         </div>
     </div>

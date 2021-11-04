@@ -4,6 +4,41 @@ Cloud Blazers Penetration Testing Tool
 
 ![App demo](screenshots/example.org.png)
 
+### Project checklist
+
+&check; Must provide a web based or mobile app based interface.
+
+&check; User enters a range of IP addresses to scan, and selects from many different scanning options.
+
+&cross; The cloud based server/monitor then splits the IP address ranges and distributes the task across multiple (at
+least 3) virtual machines, SQS can be used to send the tasks to the scanner virtual machines.
+
+&check; Each of the scanner virtual machines performs a scan for the range of IP addresses given and sends the scan
+result back to the monitor.
+
+&check; The monitor combines reports from multiple scanners and prepares a central report.
+
+&cross; Must support multiple concurrent users and require user authentication.
+
+### Features
+
+- Scan top ports
+- Scan services
+- Scan operating systems
+- List subdomains
+- Scan SSL certificates
+- Parallel execution of scanning in multiple VMs that increase the screening speed multiple times
+
+### Execution time comparision
+
+Comparision between parallel and non parallel execution time. The time is measured in seconds.
+
+| Scan type | Number of sites | Parallel execution time | Non parallel execution time |
+| --- | --- | --- | --- |
+| Port | 6 | 3.29 | 11.93 |
+| Services and operating systems | 6 | 39.88 | 161.02 |
+| Subdomains and SSL certificates | 6 | 30.27 | 87.58 |
+
 ## Local Setup
 
 ### Requirements
@@ -135,30 +170,27 @@ rm uninstall.txt
 pip install -r requirements.txt
 ```
 
-### Features
-
-- Scan top ports
-- Scan services
-- Scan operating systems
-- List subdomains
-- Scan SSL certificates
-
 ### Sample of getting JSON API response:
+
 - Get ports information of "example.com" or an IP:
+
 ```commandline
-http://127.0.0.1:5000/port?site=example.com
-http://127.0.0.1:5000/port?site=93.184.216.34
+http://127.0.0.1:5000/ports?site=example.com
+http://127.0.0.1:5000/ports?site=93.184.216.34
 ```
+
 - Get service information of "example.com" or an IP:
+
 ```commandline
 http://127.0.0.1:5000/services?site=example.com
 http://127.0.0.1:5000/services?site=93.184.216.34
 ```
+
 - Get subdomain and SSL information of "example.com" (No IP address is allowed):
+
 ```commandline
 http://127.0.0.1:5000/subdomains?site=example.com
 ```
-
 
 ### Reference
 
@@ -172,3 +204,5 @@ http://127.0.0.1:5000/subdomains?site=example.com
 - [Latest stable release self-installer nmap-7.92-setup.exe](https://nmap.org/dist/nmap-7.92-setup.exe)
 - [Sublist3r package](https://github.com/aboul3la/Sublist3r)
 - [sslyze documentation](https://nabla-c0d3.github.io/sslyze/documentation/available-scan-commands.html#id15)
+- [Requests future package](https://pypi.org/project/requests-futures/)
+- [Jinja template documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/#if-expression)

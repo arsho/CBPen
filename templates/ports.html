@@ -2,16 +2,18 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-    <h1 class="h3 mb-3"><strong>CBPen</strong> Service Scan</h1>
+
+
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Port Scan</h1>
 
     <div class="row">
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    Select Site to Scan for Services
+                    Select Site to Scan Top Ports
                 </div>
                 <div class="card-body">
-                    <form method="post" action="{{ url_for('get_services') }}">
+                    <form method="post" action="{{ url_for('get_ports') }}">
                         <select name="site" class="form-select mb-3">
                             {% for site in sites %}
                                 <option value="{{ site }}">{{ site }}</option>
@@ -27,8 +29,8 @@
             </div>
             <!-- .card -->
             {% if site %}
-                {% from 'macros/services_macro.html' import services_macro %}
-                {{ services_macro(site, hosts, total_time) }}
+                {% from 'macros/ports_macro.html' import ports_macro %}
+                {{ ports_macro(site, hosts, total_time) }}
             {% endif %}
         </div>
     </div>

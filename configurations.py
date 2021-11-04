@@ -6,10 +6,9 @@ def get_allowed_sites():
 
 def get_scan_types():
     return [
-        ["port", "Port Scan"],
-        ["services", "Service Scan"],
-        ["subdomains", "Subdomains and SSL"],
-        ["all", "All"],
+        ["ports", "Port Scan"],
+        ["services", "Services and operating systems"],
+        ["subdomains", "Subdomains and SSL certificates"]
     ]
 
 

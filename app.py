@@ -1,12 +1,6 @@
-import time
-from urllib.parse import urljoin
-import urllib.request
-import json
-from requests_futures.sessions import FuturesSession
 from flask import Flask, render_template, request, jsonify
-from controller import get_port_view, get_service_view, get_subdomain_view
+from controller import get_port_view, get_service_view, get_subdomain_view, get_multiple_view
 from configurations import get_allowed_sites, get_contributors, get_terms, get_policies, get_scan_types
-from utils import get_formatted_time
 
 app = Flask(__name__)
 
@@ -23,49 +17,26 @@ def get_multiple():
         ip_addresses = [s.strip() for s in request.form["ip_addresses"].split(",")]
         virtual_machines = [s.strip() for s in request.form["virtual_machines"].split(",")]
         scan_type = request.form["scan_type"]
-        api_endpoints = []
-        vm_index = 0
-        for ip_address in ip_addresses:
-            base = urljoin(virtual_machines[vm_index], scan_type)
-            api_endpoints.append(urljoin(base, "?site=" + ip_address))
-            vm_index += 1
-            if vm_index == len(virtual_machines):
-                vm_index = 0
-        data = {}
-        start = time.time()
+        # To get results in non parallel execution add parallel=False to the following method call
+        data = get_multiple_view(ip_addresses, virtual_machines, scan_type)
 
-        with FuturesSession() as session:
-            parallel_data = {}
-            for endpoint in api_endpoints:
-                parallel_data[endpoint] = session.get(endpoint)
-            for endpoint in parallel_data:
-                data[endpoint] = json.loads(parallel_data[endpoint].result().content)
-
-        # non parallel approach
-        # for api_endpoint in api_endpoints:
-        #     response = urllib.request.urlopen(api_endpoint)
-        #     data[api_endpoint] = json.loads(response.read())
-        total_time = time.time() - start
-        data["time"] = get_formatted_time(total_time)
-        return jsonify(data)
-
-        # return render_template(
-        #     'multiple.html',
-        #     scan_types=scan_types,
-        #     ip_addresses=api_endpoints
-        # )
+        return render_template(
+            'multiple.html',
+            scan_types=scan_types,
+            data=data
+        )
     else:
         return render_template('multiple.html', scan_types=scan_types)
 
 
-@app.route('/port', methods=['GET', 'POST'])
+@app.route('/ports', methods=['GET', 'POST'])
 def get_ports():
     sites = get_allowed_sites()
     if request.method == "POST":
         site = request.form["site"]
         data = get_port_view(site)
         return render_template(
-            'port.html',
+            'ports.html',
             sites=sites,
             site=site,
             hosts=data["hosts"],
@@ -75,7 +46,7 @@ def get_ports():
         site = request.args.get('site', default='', type=str)
         if site != "":
             return jsonify(get_port_view(site))
-        return render_template('port.html', sites=sites)
+        return render_template('ports.html', sites=sites)
 
 
 @app.route('/services', methods=['GET', 'POST'])
