@@ -143,6 +143,23 @@ pip install -r requirements.txt
 - List subdomains
 - Scan SSL certificates
 
+### Sample of getting JSON API response:
+- Get ports information of "example.com" or an IP:
+```commandline
+http://127.0.0.1:5000/port?site=example.com
+http://127.0.0.1:5000/port?site=93.184.216.34
+```
+- Get service information of "example.com" or an IP:
+```commandline
+http://127.0.0.1:5000/services?site=example.com
+http://127.0.0.1:5000/services?site=93.184.216.34
+```
+- Get subdomain and SSL information of "example.com" (No IP address is allowed):
+```commandline
+http://127.0.0.1:5000/subdomains?site=example.com
+```
+
+
 ### Reference
 
 - [Docker compose tutorial](https://docs.docker.com/compose/gettingstarted/)
