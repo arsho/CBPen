@@ -18,11 +18,13 @@ def get_multiple_view(ip_addresses, virtual_machines, scan_type, parallel=True):
     vm_index = 0
     for ip_address in ip_addresses:
         base = urljoin(virtual_machines[vm_index], scan_type)
+        base = base+"json"
         api_endpoints.append(urljoin(base, "?site=" + ip_address))
         vm_index += 1
         if vm_index == len(virtual_machines):
             vm_index = 0
     data = dict()
+    print(api_endpoints)
     data["sites"] = []
     if parallel:
         with FuturesSession() as session:
@@ -31,7 +33,9 @@ def get_multiple_view(ip_addresses, virtual_machines, scan_type, parallel=True):
                 parallel_data[endpoint] = session.get(endpoint)
             for endpoint in parallel_data:
                 site = endpoint.split("=")[1]
-                api_data = json.loads(parallel_data[endpoint].result().content)
+                fetched_result = parallel_data[endpoint].result().content
+                print(fetched_result, endpoint)
+                api_data = json.loads(fetched_result)
                 api_data["site"] = site
                 api_data["api_path"] = endpoint
                 data["sites"].append(api_data)
