@@ -54,7 +54,8 @@ Comparison between parallel and nonparallel execution time. The time is measured
 
 - Clone the repository.
 - Open a terminal / powershell in the cloned repository.
-- Create a virtual environment and activate it. If you are using Linux / Mac:
+- Create a virtual environment and activate it. If you are using Linux / Mac.
+- Based on your version of python you may have use the command py in place of python3 or python in the following commands:
 
 ```commandline
 python3 -m venv venv
@@ -106,6 +107,9 @@ Windows:
 ```commandline
 flask run
 ```
+- Look for localhost url and paste into any internet browser:
+
+![image](https://user-images.githubusercontent.com/92561241/140677370-e82cd9a9-4937-4424-86b4-5fdaf18ff5f7.png)
 
 ## Cloud Setup
 
