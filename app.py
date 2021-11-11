@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, jsonify, url_for, redirect
+from flask import Flask, render_template, request, jsonify, url_for, redirect, flash
 from controller import get_port_view, get_service_view, get_subdomain_view, get_multiple_view
 from configurations import get_allowed_sites, get_contributors, get_terms, get_policies, get_scan_types
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_bcrypt import Bcrypt
-from forms import LoginForm, RegisterForm
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -15,6 +17,32 @@ app.config['SECRET_KEY'] = 'secretkey'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+
+class RegisterForm(FlaskForm):
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField("Register")
+
+    def validate_username(self, username):
+        existing_user_username = User.query.filter_by(username=username.data).first()
+
+        if existing_user_username:
+            raise ValidationError("Username already exists! Please choose another one.")
+
+
+class LoginForm(FlaskForm):
+    username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Password"})
+
+    submit = SubmitField("Login")
 
 
 @login_manager.user_loader
@@ -136,32 +164,37 @@ def about():
 
 @app.route('/', methods=['GET', 'POST'])
 def signin():
-    contributors = get_contributors()
     form = LoginForm()
-
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
                 login_user(user)
                 return redirect(url_for('index'))
-
-    return render_template('signin.html', contributors=contributors, form=form)
+            else:
+                flash('Username and password does not match', 'error')
+        else:
+            flash('No user is found with the username', 'error')
+    return render_template('signin.html', form=form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    contributors = get_contributors()
     form = RegisterForm()
-
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        return redirect(url_for('signin'))
-
-    return render_template('signup.html', contributors=contributors, form=form)
+    if request.method == "POST":
+        if form.validate_on_submit():
+            hashed_password = bcrypt.generate_password_hash(form.password.data)
+            try:
+                new_user = User(username=form.username.data, password=hashed_password)
+                db.session.add(new_user)
+                db.session.commit()
+                login_user(new_user)
+                return redirect(url_for('index'))
+            except Exception as ex:
+                flash('Error in registration', 'error')
+        else:
+            flash('Error in registration', 'error')
+    return render_template('signup.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -172,6 +205,7 @@ def logout():
 
 
 @app.route('/terms')
+@login_required
 def terms():
     our_terms = get_terms()
     policies = get_policies()

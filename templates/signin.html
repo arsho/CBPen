@@ -1,49 +1,41 @@
-{% extends "layout.html" %}
+{% extends "layout_nonlogin.html" %}
 {% block head %}
 {% endblock %}
 {% block content %}
-<html lang="en">
-<head>
-    <title>How To Create Simple Login Form Design In Bootstrap 5</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://www.markuptag.com/bootstrap/5/css/bootstrap.min.css">
-</head>
-<body>
+    <h3 class="pb-2 border-bottom">Log in</h3>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 offset-md-4">
-                <div class="login-form bg-light mt-4 p-4">
-                    <form action="" method="POST" class="row g-3">
-                        <h4>Welcome Back</h4>
-                        <div class="col-12">
-                         
-                        {{ form.hidden_tag()}}
-                       <input  class = "form-control" {{ form.username }} 
-                        <input class = "form-control"{{ form.password }} 
-                        <input class="btn btn-dark float-end" {{ form.submit }}
-                        
-                            
-                            
-                       
-                     
-                     </form>
-                     <div class="col-12">
-                        <p class="text-center mb-0">Have not account yet? <a href="{{url_for('signup')}}">Signup</a></p>
-                    </div>
-                    <hr class="mt-4">
-                   
+    <div class="row mb-3">
+        <div class="col-md-12">
+            {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                {% if errors %}
+                    {% for error_message in errors %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            Error - {{ error_message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    {{ form.username(class_="form-control", id="username") }}
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    {{ form.password(class_="form-control", id="password") }}
+                </div>
+                {{ form.submit(class_="btn btn-dark") }}
+            </form>
         </div>
     </div>
-    
-    <!-- Bootstrap JS -->
-    <script src="https://www.markuptag.com/bootstrap/5/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <div class="row">
+        <div class="col-12">
+            <p class="text-center mb-0">Have not account yet? <a href="{{ url_for('signup') }}">Signup</a>
+            </p>
+        </div>
+    </div>
 
 {% endblock %}
 {% block script %}

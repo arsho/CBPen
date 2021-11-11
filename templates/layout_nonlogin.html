@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!--Head Starts-->
+    {% include "partials/head.html" %}
+    <!--Head Ends-->
+    {% block head %}
+    {% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light bg-gradient">
+<div class="container p-3 bg-white" id="container" style="display:none;">
+    <main>
+        <!--Header Starts-->
+        {% include "partials/header_nonlogin.html" %}
+        <!--Header Ends-->
+        {% block content %}
+        {% endblock %}
+    </main>
+</div>
+<!--Scripts Starts-->
+{% include "partials/scripts.html" %}
+<!--Scripts Ends-->
+{% block scripts %}
+{% endblock %}
+
+</body>
+</html>
