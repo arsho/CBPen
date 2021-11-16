@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify, url_for, redirect, flash
 from controller import get_port_view, get_service_view, get_subdomain_view, get_multiple_view
-from configurations import get_allowed_sites, get_contributors, get_terms, get_policies, get_scan_types
+from configurations import get_allowed_sites, get_contributors, \
+    get_terms, get_policies, get_scan_types, get_vm_urls
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user
 from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -12,11 +13,11 @@ app = Flask(__name__)
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = 'secretkey'
+app.config['SECRET_KEY'] = 'cloudblazers'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "login"
+login_manager.login_view = "signin"
 
 
 class RegisterForm(FlaskForm):
@@ -68,7 +69,7 @@ def get_multiple():
     scan_types = get_scan_types()
     if request.method == "POST":
         ip_addresses = [s.strip() for s in request.form["ip_addresses"].split(",")]
-        virtual_machines = [s.strip() for s in request.form["virtual_machines"].split(",")]
+        virtual_machines = [s.strip() for s in get_vm_urls()]
         scan_type = request.form["scan_type"]
         # To get results in non parallel execution add parallel=False to the following method call
         data = get_multiple_view(ip_addresses, virtual_machines, scan_type)
@@ -165,34 +166,35 @@ def about():
 @app.route('/', methods=['GET', 'POST'])
 def signin():
     form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user:
-            if bcrypt.check_password_hash(user.password, form.password.data):
-                login_user(user)
-                return redirect(url_for('index'))
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
+            if user:
+                if bcrypt.check_password_hash(user.password, form.password.data):
+                    login_user(user)
+                    return redirect(url_for('index'))
+                else:
+                    flash('Username and password does not match', 'error')
             else:
-                flash('Username and password does not match', 'error')
-        else:
-            flash('No user is found with the username', 'error')
-    return render_template('signin.html', form=form)
+                flash('No user is found with the username', 'error')
+        return render_template('signin.html', form=form)
+    else:
+        return render_template('signin.html', form=form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = RegisterForm()
-    if request.method == "POST":
-        if form.validate_on_submit():
-            hashed_password = bcrypt.generate_password_hash(form.password.data)
-            try:
-                new_user = User(username=form.username.data, password=hashed_password)
-                db.session.add(new_user)
-                db.session.commit()
-                login_user(new_user)
-                return redirect(url_for('index'))
-            except Exception as ex:
-                flash('Error in registration', 'error')
-        else:
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        try:
+            new_user = User(username=form.username.data, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user)
+            return redirect(url_for('index'))
+        except Exception as ex:
+            print(str(ex))
             flash('Error in registration', 'error')
     return render_template('signup.html', form=form)
 

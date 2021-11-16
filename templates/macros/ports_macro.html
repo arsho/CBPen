@@ -1,4 +1,4 @@
-{% macro ports_macro(site, hosts, total_time) -%}
+{% macro ports_macro(site, hosts, total_time, scanner=None, api_path=None) -%}
     <div class="card mb-2">
         <div class="card-header">
             Scanning report for <b>{{ site }}</b>
@@ -42,9 +42,19 @@
         <div class="card-footer">
             {% if total_time %}
                 <small class="text-muted">
-                    Scan took {{ total_time }} seconds
+                    Scan took <b>{{ total_time }}</b> seconds
                 </small>
             {% endif %}
+            {% if scanner %}
+                <small class="text-muted float-end">
+                    Scanned by <b> {{ scanner }} </b>
+                </small>
+            {% endif %}
+            {#            {% if api_path %}#}
+            {#                <small class="text-muted float-end">#}
+            {#                    API Endpoint: {{ api_path }}#}
+            {#                </small>#}
+            {#            {% endif %}#}
         </div>
     </div>
 

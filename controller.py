@@ -16,15 +16,18 @@ def get_multiple_view(ip_addresses, virtual_machines, scan_type, parallel=True):
     start = time.time()
     api_endpoints = []
     vm_index = 0
+    scanner_machines = {}
     for ip_address in ip_addresses:
         base = urljoin(virtual_machines[vm_index], scan_type)
-        base = base+"json"
-        api_endpoints.append(urljoin(base, "?site=" + ip_address))
+        base = base + "json"
+        endpoint = urljoin(base, "?site=" + ip_address)
+        scanner_machine = "Scanner engine {}".format(vm_index + 1)
+        scanner_machines[endpoint] = scanner_machine
+        api_endpoints.append(endpoint)
         vm_index += 1
         if vm_index == len(virtual_machines):
             vm_index = 0
     data = dict()
-    print(api_endpoints)
     data["sites"] = []
     if parallel:
         with FuturesSession() as session:
@@ -34,10 +37,10 @@ def get_multiple_view(ip_addresses, virtual_machines, scan_type, parallel=True):
             for endpoint in parallel_data:
                 site = endpoint.split("=")[1]
                 fetched_result = parallel_data[endpoint].result().content
-                print(fetched_result, endpoint)
                 api_data = json.loads(fetched_result)
                 api_data["site"] = site
                 api_data["api_path"] = endpoint
+                api_data["scanner"] = scanner_machines[endpoint]
                 data["sites"].append(api_data)
 
     else:
@@ -47,9 +50,11 @@ def get_multiple_view(ip_addresses, virtual_machines, scan_type, parallel=True):
             site = endpoint.split("=")[1]
             api_data["site"] = site
             api_data["api_path"] = endpoint
+            api_data["scanner"] = scanner_machines[endpoint]
             data["sites"].append(api_data)
     total_time = time.time() - start
     data["total_time"] = get_formatted_time(total_time)
+    data["total_scanners"] = min(len(virtual_machines), len(ip_addresses))
     data["scan_type"] = scan_type
     return data
 

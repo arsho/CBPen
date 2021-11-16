@@ -1,3 +1,20 @@
+from utils import is_url_available, print_on_console
+
+
+def get_vm_urls():
+    default_machine = "http://127.0.0.1:5000"
+    virtual_machines = [
+        "http://ec2-18-191-54-92.us-east-2.compute.amazonaws.com",
+        "http://ec2-3-131-94-210.us-east-2.compute.amazonaws.com",
+        "http://ec2-3-139-90-249.us-east-2.compute.amazonaws.com"
+    ]
+    for i in range(len(virtual_machines)):
+        if not is_url_available(virtual_machines[i]):
+            virtual_machines[i] = default_machine
+    print_on_console("Virtual machines after the scan", "virtual machines", virtual_machines)
+    return virtual_machines
+
+
 def get_allowed_sites():
     return ["localhost", "scanme.nmap.org", "example.com",
             "example.net", "example.org", "webscantest.com"]

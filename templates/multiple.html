@@ -20,20 +20,11 @@
                                    value=""
                                    aria-describedby="ip_addresses_help">
                             <div id="ip_addresses_help" class="form-text">
-                                Example: example.com,example.net,example.org,scanme.nmap.org
+                                Example: localhost,example.com,example.net,example.org,scanme.nmap.org
                                 <br>
                                 <p class="text-danger">
                                     Use this at your own risk, do not use it on real websites.
                                 </p>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="virtual_machines" class="form-label">Virtual Machines</label>
-                            <input name="virtual_machines" type="text" class="form-control" id="virtual_machines"
-                                   value="http://127.0.0.1:5000,http://127.0.0.1:5000,http://127.0.0.1:5000"
-                                   aria-describedby="virtual_machines_help">
-                            <div id="virtual_machines_help" class="form-text">
-                                Example: http://127.0.0.1:5000,http://127.0.0.1:5000,http://127.0.0.1:5000
                             </div>
                         </div>
                         <div class="mb-3">
@@ -63,25 +54,33 @@
                         <b>
                             {{ '0' if data.sites == None else data.sites|length }}
                         </b>
-                        sites: {{ data.total_time }} seconds
+                        sites:
+                        {{ data.total_time }} seconds
+                    </p>
+                    <p class="well">
+                        Scan is performed by
+                        <b>
+                            {{ data.total_scanners }}
+                        </b>
+                        scanners in parallel.
                     </p>
                 </div>
                 {% if data.scan_type=='ports' %}
                     {% for site_data in data.sites %}
                         {% from 'macros/ports_macro.html' import ports_macro %}
-                        {{ ports_macro(site_data.site, site_data.hosts, site_data.total_time) }}
+                        {{ ports_macro(site_data.site, site_data.hosts, site_data.total_time, site_data.scanner, site_data.api_path) }}
                     {% endfor %}
                 {% endif %}
                 {% if data.scan_type=='services' %}
                     {% for site_data in data.sites %}
                         {% from 'macros/services_macro.html' import services_macro %}
-                        {{ services_macro(site_data.site, site_data.hosts, site_data.total_time) }}
+                        {{ services_macro(site_data.site, site_data.hosts, site_data.total_time, site_data.scanner, site_data.api_path) }}
                     {% endfor %}
                 {% endif %}
                 {% if data.scan_type=='subdomains' %}
                     {% for site_data in data.sites %}
                         {% from 'macros/subdomains_macro.html' import subdomains_macro %}
-                        {{ subdomains_macro(site_data.site, site_data.subdomains, site_data.ssl_certificates, site_data.total_time) }}
+                        {{ subdomains_macro(site_data.site, site_data.subdomains, site_data.ssl_certificates, site_data.total_time, site_data.scanner, site_data.api_path) }}
                     {% endfor %}
                 {% endif %}
             {% endif %}
