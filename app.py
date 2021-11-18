@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, render_template, request, jsonify, url_for, redirect, flash
 from controller import get_port_view, get_service_view, get_subdomain_view, get_multiple_view
 from configurations import get_allowed_sites, get_contributors, \
@@ -8,6 +9,7 @@ from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
+from utils import get_formatted_time
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -57,6 +59,20 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
 
 
+class Analytics(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    total_sites = db.Column(db.Integer, nullable=False)
+    total_scanners = db.Column(db.Integer, nullable=False)
+    scan_type = db.Column(db.String(80), nullable=False)
+    total_time = db.Column(db.String(80), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow)
+
+
+def get_analytics_data():
+    return Analytics.query.all()
+
+
 @app.route('/home')
 @login_required
 def index():
@@ -73,7 +89,13 @@ def get_multiple():
         scan_type = request.form["scan_type"]
         # To get results in non parallel execution add parallel=False to the following method call
         data = get_multiple_view(ip_addresses, virtual_machines, scan_type)
-
+        new_analytics = Analytics(total_sites=len(ip_addresses),
+                                  total_scanners=data["total_scanners"],
+                                  scan_type=scan_type,
+                                  total_time=data["total_time"]
+                                  )
+        db.session.add(new_analytics)
+        db.session.commit()
         return render_template(
             'multiple.html',
             scan_types=scan_types,
@@ -81,6 +103,21 @@ def get_multiple():
         )
     else:
         return render_template('multiple.html', scan_types=scan_types)
+
+
+@app.route('/analytics')
+@login_required
+def get_analytics():
+    analytics = get_analytics_data()
+    total_scan_time = 0
+    total_number_of_sites = 0
+    for row in analytics:
+        total_scan_time += float(row.total_time)
+        total_number_of_sites += int(row.total_sites)
+    total_scan_time = get_formatted_time(total_scan_time)
+    return render_template('analytics.html', analytics=analytics,
+                           total_sites=total_number_of_sites,
+                           total_time=total_scan_time)
 
 
 @app.route('/portsjson', methods=['GET'])

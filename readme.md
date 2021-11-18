@@ -28,7 +28,7 @@ result back to the monitor.
 - List subdomains
 - Scan SSL certificates
 - Parallel execution of scanning in multiple VMs that increase the screening speed multiple times
-
+- Analytics report of all the scanning events
 ### Execution time comparison
 
 Comparison between parallel and nonparallel execution time. The time is measured in seconds.
@@ -55,7 +55,8 @@ Comparison between parallel and nonparallel execution time. The time is measured
 - Clone the repository.
 - Open a terminal / powershell in the cloned repository.
 - Create a virtual environment and activate it. If you are using Linux / Mac.
-- Based on your version of python you may have use the command py in place of python3 or python in the following commands:
+- Based on your version of python you may have use the command py in place of python3 or python in the following
+  commands:
 
 ```commandline
 python3 -m venv venv
@@ -107,6 +108,7 @@ Windows:
 ```commandline
 flask run
 ```
+
 - Look for localhost url and paste into any internet browser:
 
 ![image](https://user-images.githubusercontent.com/92561241/140677370-e82cd9a9-4937-4424-86b4-5fdaf18ff5f7.png)
@@ -179,22 +181,33 @@ pip install -r requirements.txt
 - Get ports information of "example.com" or an IP:
 
 ```commandline
-http://127.0.0.1:5000/ports?site=example.com
-http://127.0.0.1:5000/ports?site=93.184.216.34
+http://127.0.0.1:5000/portsjson?site=example.com
+http://127.0.0.1:5000/portsjson?site=93.184.216.34
 ```
 
 - Get service information of "example.com" or an IP:
 
 ```commandline
-http://127.0.0.1:5000/services?site=example.com
-http://127.0.0.1:5000/services?site=93.184.216.34
+http://127.0.0.1:5000/servicesjson?site=example.com
+http://127.0.0.1:5000/servicesjson?site=93.184.216.34
 ```
 
 - Get subdomain and SSL information of "example.com" (No IP address is allowed):
 
 ```commandline
-http://127.0.0.1:5000/subdomains?site=example.com
+http://127.0.0.1:5000/subdomainsjson?site=example.com
 ```
+
+### Developer notes
+
+- After adding a new model, create an instance in db:
+
+```commandline
+from app import db
+db.create_all()
+```
+
+- Update the VM's address in [configuration.py](controller.py) file.
 
 ### Reference
 
@@ -210,3 +223,4 @@ http://127.0.0.1:5000/subdomains?site=example.com
 - [sslyze documentation](https://nabla-c0d3.github.io/sslyze/documentation/available-scan-commands.html#id15)
 - [Requests future package](https://pypi.org/project/requests-futures/)
 - [Jinja template documentation](https://jinja.palletsprojects.com/en/3.0.x/templates/#if-expression)
+- [Flask SQLAlchemy documentation](https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/#a-minimal-application)

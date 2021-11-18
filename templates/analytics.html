@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block head %}
+    <!-- Datatable -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.css"/>
+    {#    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css"/>#}
+
+{% endblock %}
+{% block content %}
+
+
+    <h1 class="h3 mb-3"><strong>CBPen</strong> Analytics</h1>
+
+    <div class="card mb-2">
+        <div class="card-header">
+            Anonymous analytics report
+        </div>
+        <div class="card-body">
+            {% if analytics %}
+                <table id="analytics" class="table table-sm table-bordered table-striped caption-top">
+                    <caption class="card-subtitle text-center p-2 mb-2 bg-dark bg-gradient text-white">
+                        Analytics report can be sorted by each of the attributes
+                    </caption>
+                    <thead class="table-light">
+                    <tr>
+                        <th>Number of IP Addresses</th>
+                        <th>Number of Scanners</th>
+                        <th>Scan type</th>
+                        <th>Total time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in analytics %}
+                        <tr>
+                            <td>{{ row.total_sites }}</td>
+                            <td>{{ row.total_scanners }}</td>
+                            <td>{{ row.scan_type }}</td>
+                            <td>{{ row.total_time }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+
+            {% else %}
+                <h3>No analytics is found</h3>
+            {% endif %}
+        </div>
+        <div class="card-footer bg-white">
+            {% if total_time %}
+                <small class="text-muted">
+                    Total scanning time <b>{{ total_time }}</b> seconds
+                </small>
+            {% endif %}
+            {% if total_sites %}
+                <small class="text-muted float-end">
+                    Total scanned <b> {{ total_sites }} </b> IP addresses
+                </small>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.11.3/datatables.min.js"></script>
+    {#    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>#}
+    {#    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>#}
+    <script>
+        var myLine = null;
+
+
+        $(document).ready(function () {
+            $('#analytics').DataTable();
+        });
+    </script>
+
+{% endblock %}
