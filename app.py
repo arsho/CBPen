@@ -10,12 +10,31 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from utils import get_formatted_time
+# import data_base as db
+# import pymysql
 
 app = Flask(__name__)
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = db
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:c7QxYX3UmYkGBP4tlL15@Cbpen-database-1.cluster-cpsnqeqfdmlo.us-east-2.rds.amazonaws.com/cbpentest1'
 app.config['SECRET_KEY'] = 'cloudblazers'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'False'
+
+
+# app.config['MYSQL_DATABASE_USER'] = 'root'
+# app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+# app.config['MYSQL_DATABASE_DB'] = 'EmpData'
+# app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+
+
+db = SQLAlchemy(app)
+db.init_app(app)
+with app.app_context():
+    db.create_all()
+bcrypt = Bcrypt(app)
+# conn_str = 'mysql+mysqldb://admin:\c7QxYX3UmYkGBP4tlL15@3306/cbpentest1'
+# engine = SQLAlchemy.create_engine(conn_str, echo=True)
+
 
 login_manager = LoginManager()
 login_manager.init_app(app)
