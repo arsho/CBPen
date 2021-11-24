@@ -103,7 +103,7 @@ def get_terms():
             "•	Use the Site as part of any effort to compete with us or otherwise use the Site and/or the Content for any revenue-generating endeavor or commercial enterprise.",
             "•	Use for commercial purposes.",
             "•	Use without the permission of a CBPen group member.",
-            "•	Misuse of tools for malicious activities or intentions.",
+            "•	Misuse of tools for malicious activities or intentions."
     ]
     return terms
 
