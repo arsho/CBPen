@@ -12,17 +12,9 @@
                     The utility specializes in network discovery and security auditing.
                 </p>
                 <div class="d-grid gap-2 d-md-block mt-4">
-                    <a class="btn btn-secondary btn-lg py-2 text-white text-decoration-none"
-                       href="{{ url_for('get_ports') }}">
-                        <i class="bi-shield-check"></i> Port Scan
-                    </a>
-                    <a class="btn btn-dark btn-lg py-2 text-white text-decoration-none"
-                       href="{{ url_for('get_services') }}">
-                        <i class="bi-journal-check"></i> Services
-                    </a>
                     <a class="btn btn-success btn-lg py-2 text-white text-decoration-none"
-                       href="{{ url_for('get_subdomains_ssl') }}">
-                        <i class="bi-card-checklist"></i> Subdomains
+                       href="{{ url_for('get_multiple') }}">
+                        <i class="bi bi-ui-checks"></i> Scan multiple hosts parallelly using cloud scanners
                     </a>
                    
                 </div>
@@ -51,19 +43,19 @@
                     Want to get the services running on each IP of a host? What about their versions including operating systems?
                     Give it a try!
                 </p>
-                <a class="btn btn-outline-secondary py-2 text-decoration-none" href="{{ url_for('get_services') }}">
-                    <i class="bi-journal-check"></i> Services
+                <a class="btn btn-outline-dark py-2 text-decoration-none" href="{{ url_for('get_services') }}">
+                    <i class="bi-journal-check"></i> Services & OS
                 </a>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="h-100 p-5 text-dark border bg-secondary rounded-3">
+            <div class="h-100 p-5 text-white border bg-secondary rounded-3">
                 <h4>Find subdomains, SSL</h4>
                 <p>
                     Find the subdomains of the hosts, even which invisible to search engines. Additionally list the SSL certificates.
                 </p>
-                <a class="btn btn-outline-dark text-dark py-2 text-decoration-none" href="{{ url_for('get_subdomains_ssl') }}">
-                    <i class="bi-card-checklist"></i> Subdomains
+                <a class="btn btn-outline-dark text-white py-2 text-decoration-none" href="{{ url_for('get_subdomains_ssl') }}">
+                    <i class="bi-card-checklist"></i> Subdomains & SSL
                 </a>
             </div>
         </div>
