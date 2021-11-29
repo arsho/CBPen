@@ -4,7 +4,7 @@ from utils import is_url_available, print_on_console
 def get_vm_urls():
     default_machine = "http://127.0.0.1:5000"
     virtual_machines = [
-        "http://ec2-3-17-9-236.us-east-2.compute.amazonaws.com.com:5000",
+        "http://ec2-3-17-9-236.us-east-2.compute.amazonaws.com:5000",
         "http://ec2-3-17-178-111.us-east-2.compute.amazonaws.com:5000",
         "http://ec2-18-118-196-8.us-east-2.compute.amazonaws.com:5000"
     ]
