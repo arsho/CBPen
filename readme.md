@@ -10,7 +10,7 @@ Cloud Blazers Penetration Testing Tool
 
 &check; User enters a range of IP addresses to scan, and selects from many different scanning options.
 
-&cross; The cloud based server/monitor then splits the IP address ranges and distributes the task across multiple (at
+&check; The cloud based server/monitor then splits the IP address ranges and distributes the task across multiple (at
 least 3) virtual machines, SQS can be used to send the tasks to the scanner virtual machines.
 
 &check; Each of the scanner virtual machines performs a scan for the range of IP addresses given and sends the scan
@@ -18,7 +18,7 @@ result back to the monitor.
 
 &check; The monitor combines reports from multiple scanners and prepares a central report.
 
-&cross; Must support multiple concurrent users and require user authentication.
+&check; Must support multiple concurrent users and require user authentication.
 
 ### Features
 
