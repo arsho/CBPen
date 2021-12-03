@@ -2,7 +2,7 @@
 
 Cloud Blazers Penetration Testing Tool
 
-![App demo](screenshots/multiple.png)
+![App demo](screenshots/service_scan_report.png)
 
 ### Project checklist
 
