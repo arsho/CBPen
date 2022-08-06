@@ -6,11 +6,11 @@ Created on Sat Jul 25 13:34:18 2020
 
 import pymysql
 conn = pymysql.connect(
-        host = 'Cbpen-database-1.cluster-cpsnqeqfdmlo.us-east-2.rds.amazonaws.com',
+        host = 'x',
         port = 3306,
         user = 'admin',
-        password = 'c7QxYX3UmYkGBP4tlL15',
-        db = 'cbpentest1'
+        password = 'x',
+        db = 'x'
         
         )
  
