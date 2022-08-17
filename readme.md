@@ -46,7 +46,7 @@ Comparison between parallel and nonparallel execution time. The time is measured
 - Python 3
 - Pip
 - nmap:
-  Windows users, please download and
+  Windows users should download and
   install [latest stable release self-installer nmap-7.92-setup.exe](https://nmap.org/dist/nmap-7.92-setup.exe)
 - Internet connection
 
@@ -113,7 +113,7 @@ flask run
 
 ![image](https://user-images.githubusercontent.com/92561241/140677370-e82cd9a9-4937-4424-86b4-5fdaf18ff5f7.png)
 
-## Cloud Setup
+## Docker Setup
 
 ### Requirements
 
