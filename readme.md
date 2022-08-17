@@ -27,8 +27,12 @@ result back to the monitor.
 - Scan operating systems
 - List subdomains
 - Scan SSL certificates
-- Parallel execution of scanning in multiple VMs that increase the screening speed multiple times
+- Expose vulnerabilities associated with the network (ports, OS, etc)
+- Mitigation tool for developers to slow down the attacker
+- Utilize multiple VMs in parallel reducing scan time and analysis
 - Analytics report of all the scanning events
+- Require authentication using cloud database technologies
+
 ### Execution time comparison
 
 Comparison between parallel and nonparallel execution time. The time is measured in seconds.
@@ -38,6 +42,26 @@ Comparison between parallel and nonparallel execution time. The time is measured
 | Port | 6 | 3.29 | 11.93 |
 | Services and operating systems | 6 | 39.88 | 161.02 |
 | Subdomains and SSL certificates | 6 | 30.27 | 87.58 |
+
+### System design:
+- Scanning tool:
+  - Nmap - "Network Mapper" open source tool for network discovery & security auditing​
+  - Sublist3r - Subdomain listing tool
+  - SSLyze - SSL/TLS scanning tool
+  - TLS-Parser - Parse TLS information
+  - Requests - Gather metadata from the hosts
+
+- Web application:
+  - Python & Flask - Provides REST APIs for concurrent scanning from multiple VMs
+  - SQLAlchemy - SQL Object Relational Mapper
+  - Cryptography - Used for cryptographic algorithms and encryptions/decryptions
+  - Dotenv - Sets environment variables based on the development or production environment
+  - Bootstrap & jQuery - Used for developing responsive frontend
+  - Docker with docker-compose - Creates docker containers for OS independent execution
+
+- Cloud architecture:
+
+![Cloud demo](screenshots/cloud.png)
 
 ## Local Setup
 
@@ -208,6 +232,14 @@ db.create_all()
 ```
 
 - Update the VM's address in [configuration.py](controller.py) file.
+
+## Cloud Blazers Team
+
+- William Austin
+- Andrew Balfour
+- Jeremy Crown
+- Trina Lin
+- Ahmedur Rahman Shovon
 
 ### Reference
 
