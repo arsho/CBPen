@@ -33,6 +33,13 @@ result back to the monitor.
 - Analytics report of all the scanning events
 - Require authentication using cloud database technologies
 
+### Demonstration video
+[![Video demo](screenshots/video_title.png)](https://docs.google.com/file/d/1MhJ2E8Q6y1K7hurqOsNAEy6C-UldAVgR/preview)
+
+### Presentation
+
+[Powerpoint presentation of CBPen](https://arshovon.com/presentations/CBPen.pdf)
+
 ### Execution time comparison
 
 Comparison between parallel and nonparallel execution time. The time is measured in seconds.
